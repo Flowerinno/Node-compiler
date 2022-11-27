@@ -1,4 +1,6 @@
 import fs from "fs";
+import { v4 as uuidv4 } from "uuid";
+export async function validateLanguage(language) {}
 
 export async function readFile(filePath) {
 	try {
@@ -9,14 +11,22 @@ export async function readFile(filePath) {
 	}
 }
 
-export async function createFile(data) {
+export async function createFile(code, language) {
+	if (!code) {
+		console.log("no code provided");
+		return;
+	}
+	let id = uuidv4();
+	let codeDir = `H:/code/Node/nodeCompiler-backend/code/${id}`;
+	fs.mkdirSync(codeDir);
+	const file =
+		language === "javascript" ? `${codeDir}/app.js` : `${codeDir}/index.py`;
 	try {
-		await fs.writeFile("index.py", `${data}`, (err) => {
+		fs.writeFile(`${file}`, `${code}`, (err) => {
 			if (err) throw err;
-			console.log("Saved!");
 		});
 	} catch (error) {
 		console.error(error);
 	}
+	return codeDir;
 }
-

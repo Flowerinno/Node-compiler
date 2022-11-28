@@ -1,15 +1,5 @@
 import fs from "fs";
 import { v4 as uuidv4 } from "uuid";
-export async function validateLanguage(language) {}
-
-export async function readFile(filePath) {
-	try {
-		const data = await fs.readFile(filePath);
-		console.log(data.toString());
-	} catch (error) {
-		console.error(error);
-	}
-}
 
 export async function createFile(code, language) {
 	if (!code) {

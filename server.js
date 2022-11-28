@@ -6,6 +6,7 @@ import {
 	runPythonDockerContainer,
 	runJavascriptDockerContainer,
 } from "./services/docker.js";
+
 const app = express();
 const PORT = 8000;
 
@@ -16,13 +17,13 @@ app.use(express.json());
 let response;
 app.post("/", async (req, res) => {
 	const { code, language } = req.body;
-
 	switch (language) {
 		case "javascript": {
 			let path = await createFile(code, language);
 			response = await runJavascriptDockerContainer(path);
 			break;
 		}
+
 		case "python": {
 			let path = await createFile(code, language);
 			response = await runPythonDockerContainer(path);

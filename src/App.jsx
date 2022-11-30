@@ -1,6 +1,8 @@
+// @ts-nocheck
 import "./App.css";
 import { useState, useRef } from "react";
 import axios from "axios";
+
 function App() {
 	const [data, setData] = useState(null);
 	const [language, setLanguage] = useState("javascript");
@@ -27,7 +29,10 @@ function App() {
 	return (
 		<div className="app">
 			<header style={{ display: "flex" }}>
-				<select onClick={(e) => setLanguage(e.target.value)}>
+				<select
+					data-testid="select"
+					onClick={(e) => setLanguage(e.target.value)}
+				>
 					<option value="javascript">javascript</option>
 					<option value="python">python</option>
 				</select>
@@ -38,12 +43,19 @@ function App() {
 					className="code"
 					ref={ref}
 					placeholder="Code goes here..."
+					data-testid="code"
 				></textarea>
-				<div className="solution">{data ? data : "Run your code..."}</div>
+				<div className="solution" data-testid="solution">
+					{data ? data : "Run your code..."}
+				</div>
 			</div>
 			<div className="buttons">
-				<button onClick={compileHandler}>Compile</button>
-				<button onClick={() => setData(null)}>Clear results</button>
+				<button onClick={compileHandler} id="compile-button">
+					Compile
+				</button>
+				<button onClick={() => setData(null)} id="clear-button">
+					Clear results
+				</button>
 			</div>
 		</div>
 	);

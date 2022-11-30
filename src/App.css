@@ -27,6 +27,7 @@
 }
 .solution {
 	display: flex;
+	letter-spacing: 5px;
 	background-color: black;
 	color: white;
 	font-size: 15px;

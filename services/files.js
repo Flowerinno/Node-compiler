@@ -20,3 +20,10 @@ export async function createFile(code, language) {
 	}
 	return codeDir;
 }
+
+export function removeFolder(path) {
+	console.log("deleted folder", path);
+	fs.rm(path, { recursive: true, force: true }, (err) => {
+		if (err) throw err;
+	});
+}

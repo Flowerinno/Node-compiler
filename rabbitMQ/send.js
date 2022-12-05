@@ -1,6 +1,6 @@
 import amqp from "amqplib/callback_api.js";
 
-export function send(code, language) {
+export function send(code, language, id) {
 	amqp.connect("amqp://localhost:5672", (error0, connection) => {
 		if (error0) {
 			throw error0;
@@ -11,10 +11,10 @@ export function send(code, language) {
 			}
 
 			var queue = "compiler";
-			var msg = JSON.stringify([code, language]);
+			var msg = JSON.stringify([code, language, id]);
 
 			channel.assertQueue(queue, {
-				durable: false,
+				durable: true,
 			});
 			channel.sendToQueue(queue, Buffer.from(msg));
 			console.log("message sent to queue");
@@ -22,7 +22,6 @@ export function send(code, language) {
 
 		setTimeout(() => {
 			connection.close();
-			process.exit(0);
 		}, 500);
 	});
 }

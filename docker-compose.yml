@@ -1,0 +1,25 @@
+version: "3.2"
+
+services:
+
+  db:
+    container_name: dbcompiler
+    image: postgres:14.1
+    volumes:
+      - postgresql-volume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=dbcompiler
+      - POSTGRES_PASSWORD=dbcompiler
+      - POSTGRES_DB=dbcompiler
+    ports:
+      - "5432:5432"
+
+  rmq:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+
+volumes: 
+  postgresql-volume:
+    external: true

@@ -1,29 +1,27 @@
 import fs from "fs";
-import { v4 as uuidv4 } from "uuid";
 
-export async function createFile(code, language) {
+
+export async function createFile(code, language,id) {
 	if (!code) {
 		console.log("no code provided");
 		return;
 	}
-	let id = uuidv4();
+	
 	let codeDir = `H:/code/Node/nodeCompiler-backend/code/${id}`;
-	fs.mkdirSync(codeDir);
+	await fs.mkdirSync(codeDir);
 	const file =
 		language === "javascript" ? `${codeDir}/app.js` : `${codeDir}/index.py`;
-	try {
-		fs.writeFile(`${file}`, `${code}`, (err) => {
-			if (err) throw err;
-		});
-	} catch (error) {
-		console.error(error);
-	}
+
+	await fs.writeFile(`${file}`, `${code}`, (err) => {
+		if (err) throw err;
+	});
+
 	return codeDir;
 }
 
-export function removeFolder(path) {
-	console.log("deleted folder", path);
-	fs.rm(path, { recursive: true, force: true }, (err) => {
+export async function removeFolder(path) {
+	await fs.rm(path, { recursive: true, force: true }, (err) => {
 		if (err) throw err;
 	});
+	console.log("deleted folder", path);
 }

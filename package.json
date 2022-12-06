@@ -6,6 +6,8 @@
 	"main": "index.js",
 	"scripts": {
 		"rabbit": "nodemon ./rabbitMQ/consumer.js",
+		"compose": "docker-compose up",
+		"front": "cd H:/code/FrontEnd/nodeCompiler && npm start",
 		"start": "nodemon server.js",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

@@ -1,28 +1,26 @@
 import { exec } from "child_process";
 import { promisify } from "util";
-import { removeFolder } from "./files.js";
 
 const execute = promisify(exec);
 
 // "docker image build -t python:latest ./python"
 // "docker image build -t javascript:latest ./javascript",
 
-export async function runPythonDockerContainer(path) {
-	let command = `docker run --rm -v ${path}:/code -w /code javascript:latest`;
-	const { err, stdout, stderr } = await execute(command);
-	if (err) {
-		return err;
-	}
-	if (stderr) {
-		return stderr;
-	}
-	return stdout;
-}
+/**
+ * Run javascript or python docker container
+ *
+ * @param {string} path
+ * @param {string} language
+ * @returns string
+ */
 
-export async function runJavascriptDockerContainer(path) {
-	let command = `docker run --rm -v ${path}:/code -w /code javascript:latest`;
+export const runDockerContainer = async (path, language) => {
+	const js = `docker run --rm -v ${path}:/code -w /code javascript:latest`;
+	const py = `docker run --rm -v ${path}:/code -w /code python:latest`;
+	const command = language === "javascript" ? js : py;
+
 	const { err, stdout, stderr } = await execute(command);
-	await removeFolder(path);
+
 	if (err) {
 		return err;
 	}
@@ -30,4 +28,4 @@ export async function runJavascriptDockerContainer(path) {
 		return stderr;
 	}
 	return stdout;
-}
+};

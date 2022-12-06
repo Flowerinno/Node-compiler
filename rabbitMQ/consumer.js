@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import amqp from "amqplib";
-import { runJavascriptDockerContainer } from "../services/docker.js";
+import { runDockerContainer } from "../services/docker.js";
 import { createFile } from "../services/files.js";
 import pkg from "pg";
+import { removeFolder } from "../services/files.js";
 const { Client } = pkg;
 
 const client = new Client({
@@ -11,7 +12,9 @@ const client = new Client({
 	user: "dbcompiler",
 	password: "dbcompiler",
 });
+
 client.connect();
+
 let text =
 	"insert into code_request (id,status,code,result,language) values($1, $2, $3, $4, $5);";
 
@@ -28,30 +31,29 @@ const connect = async () => {
 		});
 
 		channel.prefetch(1);
+
 		console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
+
 		await channel.consume(queue, async (msg) => {
 			let message = JSON.parse(msg.content.toString());
 
+			const [code = message[0], language = message[1], id = message[2]] =
+				message;
+
 			console.log(message);
+
+			let path;
+
 			try {
-				const path = await createFile(message[0], message[1], message[2]);
-				const containerRes = await runJavascriptDockerContainer(path);
-				const response = await client.query(text, [
-					message[2],
-					"test",
-					message[0],
-					containerRes,
-					message[1],
-				]);
+				path = await createFile(code, language, id);
+
+				const containerRes = await runDockerContainer(path, language);
+
+				await client.query(text, [id, "test", code, containerRes, language]);
 			} catch (err) {
-				const response = await client.query(text, [
-					message[2],
-					"test",
-					message[0],
-					err.stderr,
-					message[1],
-				]);
+				await client.query(text, [id, "test", code, err.stderr, language]);
 			}
+			await removeFolder(path);
 			channel.ack(msg);
 		});
 	} catch (error) {

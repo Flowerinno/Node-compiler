@@ -1,5 +1,13 @@
 import fs from "fs";
 
+/**
+ * Create directory and file depending on specified language
+ * 
+ * @param {string} code 
+ * @param {string} language 
+ * @param {string} id 
+ * @returns {string}
+ */
 
 export async function createFile(code, language,id) {
 	if (!code) {
@@ -18,6 +26,8 @@ export async function createFile(code, language,id) {
 
 	return codeDir;
 }
+
+
 
 export async function removeFolder(path) {
 	await fs.rm(path, { recursive: true, force: true }, (err) => {

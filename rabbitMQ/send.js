@@ -1,5 +1,14 @@
 import amqp from "amqplib/callback_api.js";
 
+/**
+ * Connect to rabbitMQ , create a queue (if needed), send params
+ * to queue
+ * 
+ * @param {string} code 
+ * @param {string} language 
+ * @param {string} id 
+ */
+
 export function send(code, language, id) {
 	amqp.connect("amqp://localhost:5672", (error0, connection) => {
 		if (error0) {
@@ -16,7 +25,9 @@ export function send(code, language, id) {
 			channel.assertQueue(queue, {
 				durable: true,
 			});
+
 			channel.sendToQueue(queue, Buffer.from(msg));
+			
 			console.log("message sent to queue");
 		});
 

@@ -12,6 +12,7 @@ const client = new Client({
 	user: "dbcompiler",
 	password: "dbcompiler",
 });
+
 client.connect();
 const app = express();
 const PORT = 8000;
@@ -25,22 +26,25 @@ app.use(
 app.use(bodyParser.json());
 app.use(express.json());
 
+let start;
+let elapsed;
 app.get("/:id", async (req, res) => {
 	const { id } = req.params;
-
+	elapsed = `${(new Date().getTime() - start) / 1000}s`;
 	const result = await client.query(
 		"select result from code_request where id = $1;",
 		[id]
 	);
 
 	if (result.rows !== []) {
-		res.json({ result: result.rows });
+		res.json({ result: result.rows, elapsed });
 	} else {
-		res.send("Waiting for server to respond");
+		res.send("Waiting for server to respond.");
 	}
 });
 
 app.post("/", async (req, res) => {
+	start = new Date().getTime();
 	const { code, language } = req.body;
 	let id = uuidv4();
 	try {
@@ -52,5 +56,5 @@ app.post("/", async (req, res) => {
 });
 
 app.listen(PORT, (req, res) => {
-	console.log("server is listening on port", PORT);
+	console.log("server is listening on port:", PORT);
 });

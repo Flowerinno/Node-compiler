@@ -6,12 +6,15 @@ import axios from "axios";
 function App() {
 	const [data, setData] = useState(null);
 	const [id, setId] = useState(null);
+	const [time, setTime] = useState(null);
 	const [isFetching, setIsFetching] = useState(false);
 	const [language, setLanguage] = useState("javascript");
 	const ref = useRef(null);
-	const url = `http://localhost:8000`;
+
+	const url = process.env.REACT_APP_API_URL;
 
 	const compileHandler = async () => {
+		setData("Waiting for server to respond...");
 		try {
 			const {
 				data: { id },
@@ -27,7 +30,7 @@ function App() {
 			setId(id);
 			setIsFetching(true);
 		} catch (error) {
-			console.log(error);
+			setData("Something went wrong, please try again.");
 		}
 	};
 	useEffect(() => {
@@ -37,21 +40,23 @@ function App() {
 		const fetchHandler = async () => {
 			try {
 				const res = await axios.get(`${url}/${id}`);
+				console.log(res);
 				let { result } = res.data.result[0];
 
 				if (res) {
 					setIsFetching(false);
 					setId(null);
+					setTime(res.data.elapsed);
 					setData(result);
 				} else {
-					console.log("No response from the server yet");
+					setData("Hm... what's taking so long!?");
 				}
 			} catch (error) {
-				throw error;
+				setData("Something went wrong, please try again.");
 			}
 		};
 
-		let interval = setInterval(fetchHandler, 5000);
+		let interval = setInterval(fetchHandler, 2000);
 
 		return () => {
 			clearInterval(interval);
@@ -60,7 +65,7 @@ function App() {
 
 	return (
 		<div className="app">
-			<header style={{ display: "flex" }}>
+			<header>
 				<select
 					data-testid="select"
 					onClick={(e) => setLanguage(e.target.value)}
@@ -69,6 +74,15 @@ function App() {
 					<option value="python">python</option>
 				</select>
 				<h1>Select language, insert your code and we'll do the rest!</h1>
+				<span
+					style={{
+						visibility: time ? "visible" : "hidden",
+						color: "black",
+						fontWeight: "bold",
+					}}
+				>
+					Executed in: {time}
+				</span>
 			</header>
 			<div className="compiler">
 				<textarea

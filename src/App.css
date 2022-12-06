@@ -24,6 +24,7 @@
 	height: 90%;
 	word-break: break-all;
 	outline: none;
+	padding: 1rem;
 }
 .solution {
 	display: flex;
@@ -33,6 +34,7 @@
 	font-size: 15px;
 	width: 45%;
 	height: 90%;
+	padding: 1rem;
 }
 
 h1 {
@@ -70,15 +72,22 @@ header {
 	width: 100%;
 	display: flex;
 	flex-flow: row;
-	justify-content: space-evenly;
+	justify-content: center;
 	align-items: center;
+	gap: 1rem;
 }
 select {
 	outline: none;
 	border: none;
-	height: 50%;
+	width: 7%;
+	height: 100%;
+	text-align: center;
+	border-radius: 15%;
+	font-weight: bold;
 }
 option {
 	outline: none;
 	width: 100px;
+	font-weight: bold;
+	border-radius: 15%;
 }

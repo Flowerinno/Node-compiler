@@ -3,10 +3,10 @@ import amqp from "amqplib/callback_api.js";
 /**
  * Connect to rabbitMQ , create a queue (if needed), send params
  * to queue
- * 
- * @param {string} code 
- * @param {string} language 
- * @param {string} id 
+ *
+ * @param {string} code
+ * @param {string} language
+ * @param {string} id
  */
 
 export function send(code, language, id) {
@@ -27,7 +27,7 @@ export function send(code, language, id) {
 			});
 
 			channel.sendToQueue(queue, Buffer.from(msg));
-			
+
 			console.log("message sent to queue");
 		});
 

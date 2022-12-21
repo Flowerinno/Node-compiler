@@ -1,16 +1,55 @@
-import { createFile, removeFolder } from "../services/files";
-import { getDirectories } from "../__mocks__/files.mocks";
-import fs from "fs";
+import { createDir } from "../services/files/createDir";
+import { createFile } from "../services/files/createFile";
+import { removeFolder } from "../services/files/filesManager";
+import { vol, fs } from "memfs";
 
-let codePath = "H:/code/Node/nodeCompiler-backend/code";
-describe("creates and removes folders", () => {
-	
-	it("should create a folder and file inside (.js/.py) with uuid, and then remove it from the folder", async () => {
-		const path = await createFile("console.log(1)", "javascript", "someID");
-		expect(getDirectories(codePath)[0]).toEqual("someID");
-		await removeFolder(path);
-		setTimeout(() => {
-			expect(getDirectories(codePath).length).toBe(0);
-		}, 100);
+const createdir = jest.fn();
+
+const createfile = jest.fn(() => {
+	fs.writeFileSync("code/test/app.js", "Hello world!");
+});
+
+const removefolder = jest.fn(() => {
+	fs.rmdirSync("code/test");
+});
+
+const structure = () => {
+	return vol.fromJSON(
+		{
+			test: {},
+		},
+		"code"
+	);
+};
+
+describe("files management", () => {
+	beforeEach(() => {
+		vol.reset();
+	});
+
+	afterAll(() => {
+		vol.reset();
+	});
+
+	it(createDir, () => {
+		structure();
+		createdir();
+		expect(createdir).toBeCalledTimes(1);
+		expect(fs.existsSync("code/test")).toBe(true);
+	});
+
+	it(createFile, async () => {
+		structure();
+		createfile();
+		expect(createfile).toBeCalledTimes(1);
+		expect(fs.existsSync(`code/test/app.js`)).toBe(true);
+		expect(fs.readFileSync("code/test/app.js", "utf8")).toEqual("Hello world!");
+	});
+
+	it(removeFolder, async () => {
+		structure();
+		removefolder();
+		expect(removefolder).toBeCalledTimes(1);
+		expect(fs.existsSync("code/test")).toBe(false);
 	});
 });

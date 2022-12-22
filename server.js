@@ -28,7 +28,7 @@ app.post("/", async (req, res) => {
 
 	let id = uuidv4();
 	try {
-		await validation(code, res);
+		await validation(code);
 		send(code, language, id);
 		res.status(200).json({ msg: "Posted successfully", id });
 	} catch (error) {

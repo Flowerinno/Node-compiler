@@ -1,15 +1,26 @@
-// import { send } from "../rabbitMQ/send.js";
-// import amqp from "amqplib/callback_api.js";
+const send = jest.fn((code, language, id) => {
+	let queue = [];
+	queue.push(code, language, id);
+	return queue;
+});
 
+const consumer = jest.fn(() => {
+	return ["console.log(1)", "javascript", "10"];
+});
+describe("rabbitMQ", () => {
+	it("should send messages to queue", () => {
+		const result = send("console.log(1)", "javascript", "10");
+		expect(send).toBeCalledTimes(1);
+		expect(result).toBeDefined();
+		expect(result.length).toBe(3);
+	});
 
-// describe("should send messages to queue and return via consumer", () => {
-// 	it("should send messages to queue", () => {
-// 		let rabbit = amqp.connect("amqp://localhost:5672");
-// 		send('console.log("abc")', "javascript", "someID");
-// 		rabbit.createChannel((err, channel) => {
-// 			channel.assertQueue("compiler", { durable: true }, (err, ok) => {
-// 				expect(ok.messageCount).toEqual(1);
-// 			});
-// 		});
-// 	});
-// });
+	it("should get data via consumer from queue", () => {
+		const message = consumer();
+		expect(consumer).toBeCalledTimes(1);
+		expect(message).toBeDefined();
+		expect(message).toMatchSnapshot();
+	});
+});
+
+// describe('should ')

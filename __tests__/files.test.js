@@ -3,7 +3,9 @@ import { createFile } from "../services/files/createFile";
 import { removeFolder } from "../services/files/filesManager";
 import { vol, fs } from "memfs";
 
-const createdir = jest.fn();
+const createdir = jest.fn((path) => {
+	fs.mkdirSync(path);
+});
 
 const createfile = jest.fn(() => {
 	fs.writeFileSync("code/test/app.js", "Hello world!");
@@ -33,9 +35,9 @@ describe("files management", () => {
 
 	it(createDir, () => {
 		structure();
-		createdir();
+		createdir("code/test/uuid");
 		expect(createdir).toBeCalledTimes(1);
-		expect(fs.existsSync("code/test")).toBe(true);
+		expect(fs.existsSync("code/test/uuid")).toBe(true);
 	});
 
 	it(createFile, async () => {

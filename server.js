@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from "uuid";
 import { validation } from "./services/validation/validation.js";
 import { select } from "./services/postgresql/select.js";
 
-const app = express();
+export const app = express();
 const PORT = 8000;
 
 app.use(cors());
@@ -36,6 +36,6 @@ app.post("/", async (req, res) => {
 	}
 });
 
-app.listen(PORT, (req, res) => {
+app.listen(PORT, () => {
 	console.log("server is listening on port:", PORT);
 });

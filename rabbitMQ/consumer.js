@@ -4,6 +4,9 @@ import { runDockerContainer } from "../services/docker/docker.js";
 import { filesManager } from "../services/files/filesManager.js";
 import { removeFolder } from "../services/files/filesManager.js";
 import { insertToDB } from "../services/postgresql/insert.js";
+import { createFile } from "../services/files/createFile.js";
+import { createDir } from "../services/files/createDir.js";
+import { executeCommand } from "../services/docker/executeContainer.js";
 
 const connect = async () => {
 	try {
@@ -26,9 +29,13 @@ const connect = async () => {
 			const [code = message[0], language = message[1], id = message[2]] =
 				message;
 
-			path = await filesManager(code, language, id);
+			path = await filesManager(createFile, createDir, code, language, id);
 
-			const { res, elapsed } = await runDockerContainer(path, language);
+			const { res, elapsed } = await runDockerContainer(
+				executeCommand,
+				path,
+				language
+			);
 			await insertToDB(id, "test", code, res, language, elapsed);
 			await removeFolder(path);
 			channel.ack(msg);

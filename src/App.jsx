@@ -30,7 +30,8 @@ function App() {
 			setId(id);
 			setIsFetching(true);
 		} catch (error) {
-			setData("Something went wrong, please try again.");
+			setData(error.response.data.msg);
+			setIsFetching(false);
 		}
 	};
 	useEffect(() => {
@@ -39,14 +40,14 @@ function App() {
 		}
 		const fetchHandler = async () => {
 			try {
-				const res = await axios.get(`${url}/${id}`);
-				console.log(res);
-				let { result } = res.data.result[0];
+				const { data } = await axios.get(`${url}/${id}`);
+				
+				let { result, compiled_in } = data;
 
-				if (res) {
+				if (result && compiled_in) {
 					setIsFetching(false);
 					setId(null);
-					setTime(res.data.elapsed);
+					setTime(compiled_in);
 					setData(result);
 				} else {
 					setData("Hm... what's taking so long!?");

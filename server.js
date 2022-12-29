@@ -1,23 +1,27 @@
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
 import { send } from "./rabbitMQ/send.js";
 import { v4 as uuidv4 } from "uuid";
 import { validation } from "./services/validation/validation.js";
-import { select } from "./services/postgresql/select.js";
+import { select } from "./services/postgresql/controllers/Request.controller.js";
+dotenv.config();
 
 export const app = express();
-const PORT = 8000;
+
+const PORT = process.env.PORT || 8000;
 
 app.use(cors());
 app.use(express.json());
 
 app.get("/:id", async (req, res) => {
 	const { id } = req.params;
-	const result = await select(id);
-	const { rows, elapsed } = result;
+	const response = await select(id);
 
-	if (result.rows.length >= 1) {
-		res.json({ rows, elapsed });
+	const { result, compiled_in } = response;
+
+	if (result && compiled_in) {
+		res.json({ result, compiled_in });
 	} else {
 		res.send("Waiting for server to respond.");
 	}

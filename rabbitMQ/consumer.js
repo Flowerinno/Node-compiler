@@ -3,11 +3,10 @@ import amqp from "amqplib";
 import { runDockerContainer } from "../services/docker/docker.js";
 import { filesManager } from "../services/files/filesManager.js";
 import { removeFolder } from "../services/files/filesManager.js";
-import { insertToDB } from "../services/postgresql/insert.js";
 import { createFile } from "../services/files/createFile.js";
 import { createDir } from "../services/files/createDir.js";
 import { executeCommand } from "../services/docker/executeContainer.js";
-
+import { insert } from "../services/postgresql/controllers/Request.controller.js";
 const connect = async () => {
 	try {
 		const connection = await amqp.connect("amqp://localhost:5672");
@@ -36,7 +35,10 @@ const connect = async () => {
 				path,
 				language
 			);
-			await insertToDB(id, "test", code, res, language, elapsed);
+			let status = "test";
+			let data = { id, status, code, res, language, elapsed };
+			await insert(data);
+			// await insertToDB(id, "test", code, res, language, elapsed);
 			await removeFolder(path);
 			channel.ack(msg);
 		});

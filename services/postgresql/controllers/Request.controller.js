@@ -1,4 +1,4 @@
-import { DB } from "../models/orm.js";
+import { DB } from "../orm.js";
 
 const Request = DB.request;
 
@@ -24,6 +24,15 @@ export const select = async (id) => {
 		const result = await Request.findByPk(id);
 
 		return result.dataValues;
+	} catch (error) {
+		console.error(error);
+	}
+};
+
+export const selectAll = async () => {
+	try {
+		const result = await Request.findAll();
+		return JSON.stringify(result);
 	} catch (error) {
 		console.error(error);
 	}

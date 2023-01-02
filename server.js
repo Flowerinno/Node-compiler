@@ -5,7 +5,10 @@ import { send } from "./rabbitMQ/send.js";
 import { v4 as uuidv4 } from "uuid";
 import { validation } from "./services/validation/validation.js";
 import { select } from "./services/postgresql/controllers/Request.controller.js";
+import { job } from "./services/cron/cron.js";
+
 dotenv.config();
+job.start();
 
 export const app = express();
 

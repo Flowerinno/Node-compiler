@@ -1,6 +1,6 @@
-import { dbConfig } from "../db.config.js";
+import { dbConfig } from "./db.config.js";
 import { Sequelize } from "sequelize";
-import { RequestModel } from "./request.model.js";
+import { RequestModel } from "./models/request.model.js";
 
 const {
 	db,

@@ -3,7 +3,10 @@
 	"version": "1.0.0",
 	"description": "",
 	"type": "module",
-	"main": "index.js",
+	"main": "server.js",
+	"engines": {
+		"node": "18.x"
+	},
 	"scripts": {
 		"rabbit": "nodemon ./rabbitMQ/consumer.js",
 		"front": "cd H:/code/FrontEnd/nodeCompiler && npm start",

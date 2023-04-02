@@ -19,14 +19,19 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+
   javascript:
     build: ./javascript
+    image: javascript/latest
 
   python:
     build: ./python
+    image: python:latest
 
   app:
     build: .
+    networks:
+      - my-network
 
   consumer:
     build: ./rabbitMQ
@@ -34,9 +39,14 @@ services:
     depends_on:
       - rmq
       - db
+    networks:
+      - my-network
 
   
-
 volumes: 
   postgresql-volume:
     external: true
+
+networks:
+  my-network:
+    driver: bridge

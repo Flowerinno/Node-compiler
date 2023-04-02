@@ -19,6 +19,23 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
+  javascript:
+    build: ./javascript
+
+  python:
+    build: ./python
+
+  app:
+    build: .
+
+  consumer:
+    build: ./rabbitMQ
+    container_name: rabbitmq_consumer
+    depends_on:
+      - rmq
+      - db
+
+  
 
 volumes: 
   postgresql-volume:

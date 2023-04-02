@@ -3,13 +3,13 @@ import { CronJob } from "cron";
 import { selectAll } from "../postgresql/controllers/Request.controller.js";
 import { uploadPostgresData } from "../AWS/aws.js";
 
-export const job = new CronJob(
-	"0 4 * * 1",
-	async () => {
-		const data = await selectAll();
-		uploadPostgresData(data);
-	},
-	null,
-	false,
-	"America/Los_Angeles"
-);
+// export const job = new CronJob(
+// 	"0 4 * * 1",
+// 	async () => {
+// 		const data = await selectAll();
+// 		uploadPostgresData(data);
+// 	},
+// 	null,
+// 	false,
+// 	"America/Los_Angeles"
+// );

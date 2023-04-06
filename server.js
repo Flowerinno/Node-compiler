@@ -1,13 +1,16 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { send } from "./rabbitMQ/send.js";
+import { send } from "./rabbitmq/send.js";
 import { v4 as uuidv4 } from "uuid";
 import { validation } from "./services/validation/validation.js";
 import { select } from "./services/postgresql/controllers/Request.controller.js";
-// import { job } from "./services/cron/cron.js";
+import { connect } from "./rabbitmq/consumer.js";
 
+// import { job } from "./services/cron/cron.js";
+connect();
 dotenv.config();
+
 // job.start();
 
 export const app = express();

@@ -4,11 +4,8 @@
 	"description": "",
 	"type": "module",
 	"main": "server.js",
-	"engines": {
-		"node": "18.x"
-	},
 	"scripts": {
-		"rabbit": "nodemon ./rabbitMQ/consumer.js",
+		"rabbit": "nodemon ./rabbitmq/consumer.js",
 		"front": "cd H:/code/FrontEnd/nodeCompiler && npm start",
 		"start": "nodemon server.js",
 		"test": "jest"

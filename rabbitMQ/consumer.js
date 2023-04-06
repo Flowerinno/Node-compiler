@@ -7,9 +7,10 @@ import { createFile } from "../services/files/createFile.js";
 import { createDir } from "../services/files/createDir.js";
 import { executeCommand } from "../services/docker/executeContainer.js";
 import { insert } from "../services/postgresql/controllers/Request.controller.js";
-const connect = async () => {
+// guest:guest@192.168.176.3
+export const connect = async () => {
 	try {
-		const connection = await amqp.connect("amqp://localhost:5672");
+		const connection = await amqp.connect("amqp://rabbitmq:5672");
 
 		const channel = await connection.createChannel();
 
@@ -46,5 +47,3 @@ const connect = async () => {
 		console.log(error);
 	}
 };
-
-connect();

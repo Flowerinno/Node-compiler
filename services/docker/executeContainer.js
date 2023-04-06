@@ -11,6 +11,7 @@ export const executeCommand = async (command) => {
 		let { stdout } = await execute(command);
 		res = stdout;
 		let elapsed = `${(new Date().getTime() - start) / 1000}s`;
+
 		return { res, elapsed };
 	} catch (error) {
 		res = error.stderr;

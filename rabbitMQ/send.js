@@ -8,9 +8,9 @@ import amqp from "amqplib/callback_api.js";
  * @param {string} language
  * @param {string} id
  */
-
+// rabbitmq
 export function send(code, language, id) {
-	amqp.connect("amqp://localhost:5672", (error0, connection) => {
+	amqp.connect("amqp://rabbitmq:5672", (error0, connection) => {
 		if (error0) {
 			throw error0;
 		}

@@ -1,51 +1,46 @@
 version: "3.2"
 
 services:
-
   db:
     container_name: dbcompiler
     image: postgres:14.1
     volumes:
-      - postgresql-volume:/var/lib/postgresql/data
+      - ./postgres-data:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=dbcompiler
       - POSTGRES_PASSWORD=dbcompiler
       - POSTGRES_DB=dbcompiler
     ports:
       - "5432:5432"
+    hostname: dbcompiler
+    networks:
+      - my-network
 
-  rmq:
+  amqp:
     image: rabbitmq:3-management
+    hostname: rabbitmq
+    restart: always
+    networks:
+      - my-network
     ports:
-      - "15672:15672"
       - "5672:5672"
-
-  javascript:
-    build: ./javascript
-    image: javascript/latest
-
-  python:
-    build: ./python
-    image: python:latest
+      - "15672:15672"
 
   app:
     build: .
+    image: server-consumer
+    restart: always
     networks:
       - my-network
-
-  consumer:
-    build: ./rabbitMQ
-    container_name: rabbitmq_consumer
+    ports:
+      - 8000:8000
     depends_on:
-      - rmq
+      - amqp
       - db
-    networks:
-      - my-network
 
-  
-volumes: 
-  postgresql-volume:
-    external: true
+# volumes:
+#   postgresql-volume:
+#     external: true
 
 networks:
   my-network:

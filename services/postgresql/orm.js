@@ -20,3 +20,5 @@ DB.Sequelize = Sequelize;
 DB.sequelize = sequelize;
 
 DB.request = RequestModel(sequelize, Sequelize);
+
+sequelize.sync();

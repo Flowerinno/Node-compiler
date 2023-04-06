@@ -1,3 +1,5 @@
+
+
 export const RequestModel = (sequelize, Sequelize) => {
 	const Request = sequelize.define(
 		"code_request",

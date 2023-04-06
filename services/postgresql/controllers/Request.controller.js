@@ -22,7 +22,7 @@ export const insert = async (req) => {
 export const select = async (id) => {
 	try {
 		const result = await Request.findByPk(id);
-
+		console.log(result)
 		return result.dataValues;
 	} catch (error) {
 		console.error(error);

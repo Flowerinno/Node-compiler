@@ -7,7 +7,7 @@ import { createFile } from "../services/files/createFile.js";
 import { createDir } from "../services/files/createDir.js";
 import { executeCommand } from "../services/docker/executeContainer.js";
 import { insert } from "../services/postgresql/controllers/Request.controller.js";
-// guest:guest@192.168.176.3
+// amqp://rabbitmq:5672
 export const connect = async () => {
 	try {
 		const connection = await amqp.connect("amqp://rabbitmq:5672");

@@ -26,17 +26,17 @@ services:
       - "5672:5672"
       - "15672:15672"
 
-  app:
-    build: .
-    image: server-consumer
-    restart: always
-    networks:
-      - my-network
-    ports:
-      - 8000:8000
-    depends_on:
-      - amqp
-      - db
+  # app:
+  #   build: .
+  #   image: server-consumer
+  #   restart: always
+  #   networks:
+  #     - my-network
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - amqp
+  #     - db
 
 # volumes:
 #   postgresql-volume:

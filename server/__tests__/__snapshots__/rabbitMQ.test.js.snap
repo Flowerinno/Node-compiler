@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`rabbitMQ should get data via consumer from queue 1`] = `
+[
+  "console.log(1)",
+  "javascript",
+  "10",
+]
+`;

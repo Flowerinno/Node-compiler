@@ -1,0 +1,103 @@
+.app {
+	display: flex;
+	flex-flow: column;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	flex: 1;
+	gap: 2%;
+	background-color: #282c34;
+	overflow: hidden;
+	position: relative;
+}
+
+.compiler {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+	flex-flow: row;
+	height: 80%;
+}
+
+.code {
+	background-color: black;
+	color: white;
+	font-size: 15px;
+	width: 45%;
+	height: 90%;
+	word-break: break-all;
+	outline: none;
+	padding: 1rem;
+}
+.solution {
+	display: flex;
+	letter-spacing: 5px;
+	background-color: black;
+	color: white;
+	font-size: 15px;
+	width: 45%;
+	height: 90%;
+	padding: 1rem;
+}
+
+textarea {
+	background-color: black;
+	color: white;
+	font-size: 15px;
+	width: 50%;
+}
+
+.app_buttons {
+	background-color: #282c34;
+	height: 25px;
+	width: 25%;
+	border: none;
+	border-radius: 10px;
+	letter-spacing: 1px;
+	color: whitesmoke;
+}
+
+.app_buttons:hover {
+	border: 1px solid ghostwhite;
+}
+.buttons {
+	height: 50px;
+	width: 50%;
+	display: flex;
+	flex-flow: row;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.about {
+	height: max-content;
+	width: max-content;
+	position: fixed;
+	right: 1%;
+	bottom: 1%;
+	border: none;
+	font-size: 25px;
+	outline: none;
+	background: inherit;
+	color: #fff;
+}
+.about:hover {
+	border: 1px solid #fff;
+	scale: 1.1;
+	cursor: pointer;
+	border-radius: 5px;
+}
+
+@media only screen and (max-width: 450px) {
+	.buttons {
+		width: 60%;
+		justify-content: center;
+		gap: 10px;
+	}
+	button {
+		height: 20px;
+		width: max-content;
+		font-size: 10px;
+		border-radius: 0px;
+	}
+}
